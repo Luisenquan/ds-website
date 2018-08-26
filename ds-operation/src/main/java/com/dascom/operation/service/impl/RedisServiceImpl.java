@@ -69,8 +69,8 @@ public class RedisServiceImpl implements RedisService {
 	}
 
 	public Map<String, Map<String, String>> test() {
-		Jedis redis = jedisPool.getResource();
-		//Jedis redis = new Jedis(hostName, port);
+		//Jedis redis = jedisPool.getResource();
+		Jedis redis = new Jedis();
 		Pipeline p = redis.pipelined();
 		redis.select(8);
 		redis.flushDB();
@@ -90,6 +90,7 @@ public class RedisServiceImpl implements RedisService {
 		long end = System.currentTimeMillis();
 		System.out.println("hgetAll with pipeline used [" + (end - start) / 1000 + "] seconds ..");
 		redis.disconnect();
+		jedisPool.close();
 		return result;
 	}
 
